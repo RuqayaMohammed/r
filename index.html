@@ -64,7 +64,20 @@ button:hover { background-color: #357ab8; }
   <button id="sendBtn">إرسال إشعارات الغياب</button>
   <p class="note">اختر أكثر من طالبة بالضغط على Ctrl (أو Cmd) أو باللمس المطول</p>
 </div>
-
+// تحديث الشُعب عند اختيار المرحلة
+gradeSelect.addEventListener("change", function() {
+  const grade = this.value;
+  classSelect.innerHTML = '<option value="">اختر الشعبة</option>';
+  studentSelect.innerHTML = '';
+  if(data[grade]) {
+    for(let cls in data[grade]) {
+      let option = document.createElement("option");
+      option.value = cls;
+      option.textContent = cls;
+      classSelect.appendChild(option);
+    }
+  }
+});
 <script>
 const data = {
   stage1: {
@@ -99,20 +112,7 @@ const gradeSelect = document.getElementById("grade");
 const classSelect = document.getElementById("class");
 const studentSelect = document.getElementById("students");
 
-// تحديث الشُعب عند اختيار المرحلة
-gradeSelect.addEventListener("change", function() {
-  const grade = this.value;
-  classSelect.innerHTML = '<option value="">اختر الشعبة</option>';
-  studentSelect.innerHTML = '';
-  if(data[grade]) {
-    for(let cls in data[grade]) {
-      let option = document.createElement("option");
-      option.value = cls;
-      option.textContent = cls;
-      classSelect.appendChild(option);
-    }
-  }
-});
+
 
 // تحديث الطلاب عند اختيار الشعبة
 classSelect.addEventListener("change", function() {
@@ -148,4 +148,5 @@ document.getElementById("sendBtn").addEventListener("click", function() {
 </script>
 
 </body>
+
 </html>
