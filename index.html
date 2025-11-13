@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام إشعار الغياب للهاتف</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f7fa;
+  text-align: center;
+  margin: 0; padding: 0;
+}
+h2 {
+  background-color: #4a90e2;
+  color: white;
+  padding: 20px 0;
+  margin: 0;
+}
+.container {
+  max-width: 500px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+select, button {
+  width: 95%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+button {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover { background-color: #357ab8; }
+.note { font-size: 13px; color: #666; }
+</style>
+</head>
+<body>
+
+<h2>نظام إشعار الغياب للهاتف</h2>
+
+<div class="container">
+  <select id="grade">
+    <option value="">اختر المرحلة</option>
+    <option value="stage1">المرحلة أ</option>
+    <option value="stage2">المرحلة ب</option>
+    <option value="stage3">المرحلة ج</option>
+  </select>
+
+  <select id="class">
+    <option value="">اختر الشعبة</option>
+  </select>
+
+  <select id="students" multiple size="5"></select>
+
+  <button id="sendBtn">إرسال إشعارات الغياب</button>
+  <p class="note">اختر أكثر من طالبة بالضغط على Ctrl (أو Cmd) أو باللمس المطول</p>
+</div>
+
+<script>
+const data = {
+  stage1: {
+    "شعبة 1": [
+      {name:"رقية محمد", phone:"96893931336"},
+      {name:"جمان عبدالمجيد", phone:"96893255155"},
+      {name:"ليلى سعيد", phone:"96891122334"}
+    ],
+    "شعبة 2": [
+      {name:"أسماء علي", phone:"96897654321"},
+      {name:"هالة يوسف", phone:"96899887766"},
+      {name:"نور محمد", phone:"96891239876"}
+    ]
+  },
+  stage2: {
+    "شعبة 1": [
+      {name:"ريما سعيد", phone:"96892234567"},
+      {name:"جنى خالد", phone:"96892765432"},
+      {name:"تالا يوسف", phone:"96892112334"}
+    ]
+  },
+  stage3: {
+    "شعبة 1": [
+      {name:"جنى مريم", phone:"96893234567"},
+      {name:"لين سارة", phone:"96893765432"},
+      {name:"ميار ليلى", phone:"96893112334"}
+    ]
+  }
+};
+
+const gradeSelect = document.getElementById("grade");
+const classSelect = document.getElementById("class");
+const studentSelect = document.getElementById("students");
+
+// تحديث الشُعب عند اختيار المرحلة
+gradeSelect.addEventListener("change", function() {
+  const grade = this.value;
+  classSelect.innerHTML = '<option value="">اختر الشعبة</option>';
+  studentSelect.innerHTML = '';
+  if(data[grade]) {
+    for(let cls in data[grade]) {
+      let option = document.createElement("option");
+      option.value = cls;
+      option.textContent = cls;
+      classSelect.appendChild(option);
+    }
+  }
+});
+
+// تحديث الطلاب عند اختيار الشعبة
+classSelect.addEventListener("change", function() {
+  const grade = gradeSelect.value;
+  const cls = this.value;
+  studentSelect.innerHTML = '';
+  if(data[grade] && data[grade][cls]) {
+    data[grade][cls].forEach(student => {
+      let option = document.createElement("option");
+      option.value = student.phone;
+      option.textContent = student.name;
+      studentSelect.appendChild(option);
+    });
+  }
+});
+
+// إرسال WhatsApp
+document.getElementById("sendBtn").addEventListener("click", function() {
+  const selected = Array.from(studentSelect.selectedOptions);
+  if(selected.length === 0) { alert("اختر طالبة واحدة على الأقل"); return; }
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString("ar-OM", {weekday:"long", year:"numeric", month:"long", day:"numeric"});
+
+  selected.forEach((option, idx) => {
+    setTimeout(() => {
+      const msg = encodeURIComponent(السلام عليكم، نود إعلامكم بغياب الطالبة ${option.textContent} بتاريخ ${dateStr}. إدارة المدرسة.);
+      const url = https://wa.me/${option.value}?text=${msg};
+      window.open(url, "_blank");
+    }, idx*700);
+  });
+});
+</script>
+
+</body>
+</html>
