@@ -46,20 +46,7 @@ button:hover { background-color: #357ab8; }
 <body>
 
 <h2>نظام إشعار الغياب للهاتف</h2>
-// تحديث الشُعب عند اختيار المرحلة
-gradeSelect.addEventListener("change", function() {
-  const grade = this.value;
-  classSelect.innerHTML = '<option value="">اختر الشعبة</option>';
-  studentSelect.innerHTML = '';
-  if(data[grade]) {
-    for(let cls in data[grade]) {
-      let option = document.createElement("option");
-      option.value = cls;
-      option.textContent = cls;
-      classSelect.appendChild(option);
-    }
-  }
-});
+
 <div class="container">
   <select id="grade">
     <option value="">اختر المرحلة</option>
@@ -111,7 +98,20 @@ const data = {
 const gradeSelect = document.getElementById("grade");
 const classSelect = document.getElementById("class");
 const studentSelect = document.getElementById("students");
-
+// تحديث الشُعب عند اختيار المرحلة
+gradeSelect.addEventListener("change", function() {
+  const grade = this.value;
+  classSelect.innerHTML = '<option value="">اختر الشعبة</option>';
+  studentSelect.innerHTML = '';
+  if(data[grade]) {
+    for(let cls in data[grade]) {
+      let option = document.createElement("option");
+      option.value = cls;
+      option.textContent = cls;
+      classSelect.appendChild(option);
+    }
+  }
+});
 
 
 // تحديث الطلاب عند اختيار الشعبة
@@ -150,5 +150,6 @@ document.getElementById("sendBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
