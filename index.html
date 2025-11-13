@@ -54,16 +54,6 @@ button:hover { background-color: #357ab8; }
     <option value="stage2">المرحلة ب</option>
     <option value="stage3">المرحلة ج</option>
   </select>
-
-  <select id="class">
-    <option value="">اختر الشعبة</option>
-  </select>
-
-  <select id="students" multiple size="5"></select>
-
-  <button id="sendBtn">إرسال إشعارات الغياب</button>
-  <p class="note">اختر أكثر من طالبة بالضغط على Ctrl (أو Cmd) أو باللمس المطول</p>
-</div>
 // تحديث الشُعب عند اختيار المرحلة
 gradeSelect.addEventListener("change", function() {
   const grade = this.value;
@@ -78,6 +68,16 @@ gradeSelect.addEventListener("change", function() {
     }
   }
 });
+  <select id="class">
+    <option value="">اختر الشعبة</option>
+  </select>
+
+  <select id="students" multiple size="5"></select>
+
+  <button id="sendBtn">إرسال إشعارات الغياب</button>
+  <p class="note">اختر أكثر من طالبة بالضغط على Ctrl (أو Cmd) أو باللمس المطول</p>
+</div>
+
 <script>
 const data = {
   stage1: {
@@ -150,3 +150,4 @@ document.getElementById("sendBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
